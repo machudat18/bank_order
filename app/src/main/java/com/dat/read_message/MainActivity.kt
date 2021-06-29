@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.text.format.DateFormat
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -43,31 +44,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun startSearchSms() {
-        if (!isReadMessagePermissionGranted) {
-            requestReadSMSPermissions()
-        } else {
-            listMessage.clear()
-            listMessageAdapter.notifyDataSetChanged()
-            val lst: List<SmsModels>? = getAllSms()
-            val params: String = edt_search.text.toString()
-            val result: List<SmsModels>? =
-                lst?.filter { smsModels ->
-                    (smsModels.address!!.removeAllWhiteSpace()
-                        .contains(params.removeAllWhiteSpace()) || smsModels.msg!!.contains(
-                        params.removeAllWhiteSpace()
-                    ))
-                }
-            Log.d(TAG, result.toString())
-            if (!result.isNullOrEmpty()) {
-                listMessage.addAll(result as Collection<SmsModels>)
-                listMessageAdapter.notifyDataSetChanged()
-                Log.d("TAG", lst.toString())
-            }
-
-        }
-    }
-
     private fun String.removeAllWhiteSpace(): String {
         return this.replace("\\s".toRegex(), "")
     }
@@ -86,13 +62,13 @@ class MainActivity : AppCompatActivity() {
             val lst: List<SmsModels>? = getAllSms()
             val result: List<SmsModels>? = if (params != null) lst?.filter { smsModels ->
                 (smsModels.address!!.removeAllWhiteSpace()
-                    .contains(params.removeAllWhiteSpace()) || smsModels.msg!!.contains(
-                    params.removeAllWhiteSpace()
+                    .contains(params.removeAllWhiteSpace(),ignoreCase = true) || smsModels.msg!!.contains(
+                    params.removeAllWhiteSpace(),ignoreCase = true
                 ))
             } else lst
             listMessage.addAll(result as Collection<SmsModels>)
             listMessageAdapter.notifyDataSetChanged()
-            Log.d("TAG", lst.toString())
+            Log.d("TAG", listMessage.toString())
             tv_noti.visibility = if (listMessage.isNotEmpty()) View.INVISIBLE else View.VISIBLE
         }
     }
@@ -123,7 +99,7 @@ class MainActivity : AppCompatActivity() {
                 c.moveToNext()
             }
         }
-        c?.close()
+        this.stopManagingCursor(c)
         return lstSms
     }
 
@@ -135,22 +111,22 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-//    override fun onRequestPermissionsResult(
-//        requestCode: Int,
-//        permissions: Array<out String>,
-//        grantResults: IntArray
-//    ) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-//        when (requestCode) {
-//            REQUEST_ID_MULTIPLE_PERMISSIONS -> {
-//                if (grantResults.firstOrNull() == PackageManager.PERMISSION_DENIED) {
-//                    return;
-//                } else {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            REQUEST_ID_MULTIPLE_PERMISSIONS -> {
+                if (grantResults.firstOrNull() != PackageManager.PERMISSION_DENIED) {
+                    Toast.makeText(this, "Cấp quyền đọc tin nhắn thành công", Toast.LENGTH_SHORT)
+                } else {
 //                    startGetSms(edt_search.text.toString())
-//                }
-//            }
-//        }
-//    }
+                }
+            }
+        }
+    }
 
 
     companion object {
