@@ -22,8 +22,10 @@ class ListMessageAdapter(
         val item = dataSource[position]
         val tvAddress = rowView.findViewById(R.id.tv_address) as TextView
         val tvMessage = rowView.findViewById(R.id.tv_message) as TextView
+        val tvTime = rowView.findViewById(R.id.tv_time) as TextView
         tvAddress.text = item.address
         tvMessage.text = item.msg
+        tvTime.text = item.time
         return rowView
     }
 }
