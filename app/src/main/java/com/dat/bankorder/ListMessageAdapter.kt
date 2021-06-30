@@ -18,6 +18,7 @@ class ListMessageAdapter(
     override fun getItemId(position: Int): Long = position.toLong()
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+
         val rowView = inflater.inflate(R.layout.message_item, parent, false)
         val item = dataSource[position]
         val tvAddress = rowView.findViewById(R.id.tv_address) as TextView
