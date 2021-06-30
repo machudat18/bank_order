@@ -1,4 +1,4 @@
-package com.dat.read_message
+package com.dat.bankorder
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

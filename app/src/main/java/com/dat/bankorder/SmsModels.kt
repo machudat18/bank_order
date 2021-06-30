@@ -1,9 +1,6 @@
-package com.dat.read_message
+package com.dat.bankorder
 
-import android.os.Parcel
-import android.os.Parcelable
-
- class SmsModels {
+class SmsModels {
     var id: String? = null
     var address: String? = null
     var msg: String? = null

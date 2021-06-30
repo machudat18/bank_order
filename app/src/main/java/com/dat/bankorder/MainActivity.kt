@@ -1,4 +1,4 @@
-package com.dat.read_message
+package com.dat.bankorder
 
 import android.Manifest
 import android.content.ContentResolver

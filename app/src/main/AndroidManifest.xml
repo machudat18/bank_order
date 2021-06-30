@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.dat.read_message">
+    package="com.dat.bankorder">
 
     <uses-permission android:name="android.permission.READ_SMS" />
     <application
@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Read_message">
         <activity
-            android:name=".MainActivity"
+            android:name="com.dat.bankorder.MainActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar">
 
             <intent-filter>
